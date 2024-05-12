@@ -1,95 +1,50 @@
 #include "../include/header.h"
 
-void	move_a(t_mlx *gg)
+void ft_release(mlx_key_data_t keydata, t_mlx *mlx) // release the key
 {
-	if (gg->data->map2d[gg->data->p_x][gg->data->p_y - 1] == '1')
-		return ;
-	gg->data->map2d[gg->data->p_x][gg->data->p_y - 1] = 'P';
-	gg->data->map2d[gg->data->p_x][gg->data->p_y] = '0';
-	gg->data->p_y = gg->data->p_y - 1;
-}
-
-void	move_s(t_mlx *gg)
-{
-	if (gg->data->map2d[gg->data->p_x + 1][gg->data->p_y] == '1')
-		return ;
-	gg->data->map2d[gg->data->p_x + 1][gg->data->p_y] = 'P';
-	gg->data->map2d[gg->data->p_x][gg->data->p_y] = '0';
-	gg->data->p_x = gg->data->p_x + 1;
-}
-
-void	move_w(t_mlx *gg)
-{
-	if (gg->data->map2d[gg->data->p_x - 1][gg->data->p_y] == '1')
-		return ;
-	gg->data->map2d[gg->data->p_x - 1][gg->data->p_y] = 'P';
-	gg->data->map2d[gg->data->p_x][gg->data->p_y] = '0';
-	gg->data->p_x = gg->data->p_x - 1;
-}
-
-void	move_d(t_mlx *gg)
-{
-	if (gg->data->map2d[gg->data->p_x][gg->data->p_y + 1] == '1')
-		return ;
-	gg->data->map2d[gg->data->p_x][gg->data->p_y + 1] = 'P';
-	gg->data->map2d[gg->data->p_x][gg->data->p_y] = '0';
-	gg->data->p_y = gg->data->p_y + 1;
-}
-
-int	handle_exit(t_mlx *data)
-{
-	(void)data;
-	exit(0);
-}
-
-void ft_release(int key, t_mlx *mlx) // release the key
-{
-	if (key == 2)
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
 		mlx->player->l_r = 0;
-	else if (key == 0)
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
 		mlx->player->l_r = 0;
-	else if (key == 1)
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
 		mlx->player->u_d = 0;
-	else if (key == 13)
+	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
 		mlx->player->u_d = 0;
-	else if (key == 123)
+	else if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_RELEASE))
 		mlx->player->rot = 0;
-	else if (key == 124)
+	else if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_RELEASE))
 		mlx->player->rot = 0;
 }
 
-int key_handler(int key, t_mlx *mlx)
+void key_handler(mlx_key_data_t keydata, void *ml)
 {
+	t_mlx *mlx;
+	mlx = ml;
 	// if (keydata.key == MLX_KEY_ESCAPE && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT)) // exit the game
-	//  ft_exit(mlx);
-	if (key == 0) // move left
+	// 	ft_exit(mlx);
+	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
 	{
-		mlx->player->l_r = -1;
-		move_a(mlx);
+		// mlx->player->l_r = -1;
 	}
-	else if (key == 2) // move right
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
 	{
-		mlx->player->l_r = 1;
-		move_d(mlx);
+		// mlx->player->l_r = 1;
 	}
-	else if (key == 1) // move down
+	else if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS))
 	{
 		mlx->player->u_d = -1;
-		move_s(mlx);
 	}
-	else if (key == 13) // move up
+	else if (keydata.key == MLX_KEY_S && keydata.action == MLX_PRESS)
 	{
 		mlx->player->u_d = 1;
-		move_w(mlx);
 	}
-	else if (key == 123) // rotate left
+	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 	{	
 		mlx->player->rot = -1;
 	}
-	else if (key == 124) // rotate right
+	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 	{
 		mlx->player->rot = 1;
 	}
-	ft_release(key, mlx); // release the key
-	return (0);
+	ft_release(keydata, mlx);
 }
