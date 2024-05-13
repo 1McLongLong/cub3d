@@ -78,23 +78,6 @@ void render_player(t_mlx *mlx)
 	draw_line(mlx, player_x, player_y, player_x + cos(mlx->player->angle) * 30, player_y + sin(mlx->player->angle) * 30);
 }
 
-
-void castray(float ray_angle, int stripid)
-{}
-
-void cast_rays(t_mlx *mlx)
-{
-	mlx->ray->ray_ngl = mlx->player->angle - (mlx->player->fov_rd / 2); // fov_rd could be FOV i'm not sure
-	int stripid = 0;
-	while (stripid < NUM_RAYS)
-	{
-		castray(mlx->ray->ray_ngl, stripid);
-		mlx->ray->ray_ngl += mlx->player->fov_rd / NUM_RAYS;
-		stripid++;
-	}
-}
-
-
 void init_player(t_mlx mlx)
 {
 	mlx.player->plyr_x =	mlx.data->p_x * TILE_SIZE;
@@ -111,9 +94,9 @@ void game_loop(void *ml)
 	mlx_delete_image(mlx->mlx_p, mlx->mlx_img);
 	mlx->mlx_img = mlx_new_image(mlx->mlx_p, S_W, S_H);
 	render_wall(mlx);
-	render_player(mlx);
+	// render_player(mlx);
 	hook(mlx, 0, 0);
-	// cast_rays(mlx);
+	cast_rays(mlx);
 	mlx_image_to_window(mlx->mlx_p, mlx->mlx_img, 0, 0);
 }
 
