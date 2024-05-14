@@ -4,7 +4,7 @@ float norm_angle(float angle)
 {
   if (angle < 0)
     angle += (2 * PI);
-  if (angle > (2 * PI))
+  if (angle >= (2 * PI))
     angle -= (2 * PI);
   return (angle);
 }
@@ -39,14 +39,11 @@ float find_h_inter(t_mlx *mlx, float rayAngle)
   float xintercept, yintercept;
   float xstep, ystep;
 
-  // Find the y-coordinate of the closest horizontal grid intersection
   yintercept = floor(mlx->player->plyr_y / TILE_SIZE) * TILE_SIZE;
   yintercept += isRayFacingDown ? TILE_SIZE : 0;
 
-  // Find the x-coordinate of the closest horizontal grid intersection
   xintercept = mlx->player->plyr_x + (yintercept - mlx->player->plyr_y) / tan(rayAngle);
 
-  // Calculate the increment xstep and ystep
   ystep = TILE_SIZE;
   ystep *= isRayFacingUp ? -1 : 1;
 
@@ -56,8 +53,6 @@ float find_h_inter(t_mlx *mlx, float rayAngle)
 
   float nextHorzTouchX = xintercept;
   float nextHorzTouchY = yintercept;
-
-  // Increment xstep and ystep until we find a wall
   while (nextHorzTouchX >= 0 && nextHorzTouchX <= S_W && nextHorzTouchY >= 0 && nextHorzTouchY <= S_H)
   {
     float xToCheck = nextHorzTouchX;
@@ -95,7 +90,6 @@ float find_v_inter(t_mlx *mlx, float rayAngle)
 
   yintercept = mlx->player->plyr_y + (xintercept - mlx->player->plyr_x) * tan(rayAngle);
 
-  // Calculate the increment xstep and ystep
   xstep = TILE_SIZE;
   xstep *= isRayFacingLeft ? -1 : 1;
 
@@ -105,7 +99,6 @@ float find_v_inter(t_mlx *mlx, float rayAngle)
 
   float nextVertTouchX = xintercept;
   float nextVertTouchY = yintercept;
-  // Increment xstep and ystep until we find a wall
   while (nextVertTouchX >= 0 && nextVertTouchX <= S_W && nextVertTouchY >= 0 && nextVertTouchY <= S_H)
   {
     float xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);

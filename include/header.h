@@ -33,8 +33,12 @@ typedef struct s_player //the player structure
 
 typedef struct s_ray //the ray structure
 {
-	double ray_ngl; // ray angle
+	float ray_ngl; // ray angle
 	double distance; // distance to the wall
+	float v_inter_x;
+	float v_inter_y;
+	float h_inter_x;
+	float h_inter_y;
 	int  flag;  // flag for the wall (hit vertical/horizontal)
 } t_ray;
 
@@ -59,6 +63,7 @@ typedef struct s_mlx //the mlx structure
 
 
 void	hook(t_mlx *mlx, double move_x, double move_y);
+void cast_rays(t_mlx *mlx);
 
 void key_handler(mlx_key_data_t key, void *ml);
 
