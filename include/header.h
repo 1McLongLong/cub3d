@@ -8,9 +8,9 @@
 #include <math.h>
 #include "../MLX42/include/MLX42/MLX42.h"
 
-# define S_W 1280
-# define S_H 832
-# define TILE_SIZE 64
+# define S_W 1200
+# define S_H 780
+# define TILE_SIZE 60
 # define FOV 60 
 # define ROTATION_SPEED 0.069 // rotation speed
 # define PLAYER_SPEED 4 // player speed
@@ -34,7 +34,7 @@ typedef struct s_player //the player structure
 typedef struct s_ray //the ray structure
 {
 	float ray_ngl; // ray angle
-	double distance; // distance to the wall
+	float distance; // distance to the wall
 	float v_inter_x;
 	float v_inter_y;
 	float h_inter_x;

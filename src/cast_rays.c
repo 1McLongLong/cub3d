@@ -2,10 +2,10 @@
 
 float norm_angle(float angle)
 {
+	if (angle >= (2 * M_PI))
+    angle -= (2 * M_PI);
   if (angle < 0)
-    angle += (2 * PI);
-  if (angle >= (2 * PI))
-    angle -= (2 * PI);
+    angle += (2 * M_PI);
   return (angle);
 }
 
@@ -26,18 +26,31 @@ int wall_hit(float x, float y, t_mlx *mlx)
 	return (1);
 }
 
+float distanceBetweenPoints(float x1, float y1, float x2, float y2)
+{
+	return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
 float find_h_inter(t_mlx *mlx, float rayAngle)
 {
   rayAngle = norm_angle(rayAngle);
 
-  int isRayFacingDown = rayAngle > 0 && rayAngle < PI;
+  int isRayFacingDown = rayAngle > 0 && rayAngle < M_PI;
   int isRayFacingUp = !isRayFacingDown;
 
-  int isRayFacingRight = rayAngle < 0.5 * PI || rayAngle > 1.5 * PI;
+
+  int isRayFacingRight = rayAngle < 0.5 * M_PI || rayAngle > 1.5 * M_PI;
   int isRayFacingLeft = !isRayFacingRight;
 
   float xintercept, yintercept;
   float xstep, ystep;
+
+	xintercept = 0;
+	yintercept = 0;
+	xstep = 0;
+	ystep = 0;
+	// mlx->ray->h_inter_x = 0;
+	// mlx->ray->h_inter_y = 0;
 
   yintercept = floor(mlx->player->plyr_y / TILE_SIZE) * TILE_SIZE;
   yintercept += isRayFacingDown ? TILE_SIZE : 0;
@@ -53,7 +66,8 @@ float find_h_inter(t_mlx *mlx, float rayAngle)
 
   float nextHorzTouchX = xintercept;
   float nextHorzTouchY = yintercept;
-  while (nextHorzTouchX >= 0 && nextHorzTouchX <= S_W && nextHorzTouchY >= 0 && nextHorzTouchY <= S_H)
+  
+  while (nextHorzTouchX > 0 && nextHorzTouchX < S_W && nextHorzTouchY > 0 && nextHorzTouchY < S_H)
   {
     float xToCheck = nextHorzTouchX;
     float yToCheck = nextHorzTouchY + (isRayFacingUp ? -1 : 0);
@@ -76,15 +90,21 @@ float find_h_inter(t_mlx *mlx, float rayAngle)
 float find_v_inter(t_mlx *mlx, float rayAngle)
 {
   rayAngle = norm_angle(rayAngle);
-  int isRayFacingDown = rayAngle > 0 && rayAngle < PI;
+  int isRayFacingDown = rayAngle > 0 && rayAngle < M_PI;
   int isRayFacingUp = !isRayFacingDown;
 
-  int isRayFacingRight = rayAngle < 0.5 * PI || rayAngle > 1.5 * PI;
+  int isRayFacingRight = rayAngle < 0.5 * M_PI || rayAngle > 1.5 * M_PI;
   int isRayFacingLeft = !isRayFacingRight;
 
   float xintercept, yintercept;
   float xstep, ystep;
-
+	
+	xintercept = 0;
+	yintercept = 0;
+	xstep = 0;
+	ystep = 0;
+  // mlx->ray->v_inter_x = 0;
+  // mlx->ray->v_inter_x = 0;
   xintercept = floor(mlx->player->plyr_x / TILE_SIZE) * TILE_SIZE;
   xintercept += isRayFacingRight ? TILE_SIZE : 0;
 
@@ -99,7 +119,7 @@ float find_v_inter(t_mlx *mlx, float rayAngle)
 
   float nextVertTouchX = xintercept;
   float nextVertTouchY = yintercept;
-  while (nextVertTouchX >= 0 && nextVertTouchX <= S_W && nextVertTouchY >= 0 && nextVertTouchY <= S_H)
+  while (nextVertTouchX > 0 && nextVertTouchX < S_W && nextVertTouchY > 0 && nextVertTouchY < S_H)
   {
     float xToCheck = nextVertTouchX + (isRayFacingLeft ? -1 : 0);
     float yToCheck = nextVertTouchY;
@@ -119,25 +139,45 @@ float find_v_inter(t_mlx *mlx, float rayAngle)
 	return (sqrt(pow(mlx->ray->v_inter_x - mlx->player->plyr_x, 2) + pow(mlx->ray->v_inter_y - mlx->player->plyr_y, 2)));
 }
 
-void render_rays(t_mlx *mlx, float x1, float y1, float x2, float y2)
+// void render_rays(t_mlx *mlx, float x1, float y1, float x2, float y2)
+// {
+//   float dx = x2 - x1;
+//   float dy = y2 - y1;
+//   float step;
+//   if (fabsf(dx) >= fabsf(dy))
+//     step = fabsf(dx);
+//   else
+//     step = fabsf(dy);
+//   float x_inc = dx / step;
+//   float y_inc = dy / step;
+//   float i = 1;
+//    float current_x = x1;
+//    float current_y = y1;
+//   while (i <= step)
+// 	{
+// 		current_x += x_inc;
+// 		current_y += y_inc;
+//     mlx_put_pixel(mlx->mlx_img, current_x, current_y, 0xEEED312);
+//     i++;
+//   }
+// }
+
+void	draw_ray(t_mlx *mlx, float angle, float distance, int color)
 {
-  float dx = x2 - x1;
-  float dy = y2 - y1;
-  float step;
-  if (fabsf(dx) >= fabsf(dy))
-    step = fabsf(dx);
-  else
-    step = fabsf(dy);
-  float x_inc = dx / step;
-  float y_inc = dy / step;
-  float i = 0;
-  while (i <= step)
+	float	x;
+	float	y;
+	float		i;
+
+	i = 0;
+	y = mlx->player->plyr_y;
+	x = mlx->player->plyr_x;
+	while (i <= distance)
 	{
-    float current_x = x1 + (i * x_inc);
-    float current_y = y1 + (i * y_inc);
-    mlx_put_pixel(mlx->mlx_img, current_x, current_y, 0xEEED312);
-    i++;
-  }
+		mlx_put_pixel(mlx->mlx_img, x, y, color);
+		x += 1 * cos(angle);
+		y += 1 * sin(angle);
+		i++;
+	}
 }
 
 void cast_rays(t_mlx *mlx)
@@ -146,23 +186,25 @@ void cast_rays(t_mlx *mlx)
   float v_inter;
 	int ray = 0;
 	
-  mlx->ray->ray_ngl = mlx->player->angle - (mlx->player->fov_rd / 2);
+  mlx->ray->ray_ngl = norm_angle(mlx->player->angle) - (mlx->player->fov_rd / 2);
 	while (ray < NUM_RAYS)
 	{
-    mlx->ray->flag = 0;
     h_inter = find_h_inter(mlx, mlx->ray->ray_ngl);
     v_inter = find_v_inter(mlx, mlx->ray->ray_ngl);
-		if (v_inter <= h_inter)
+		if (v_inter < h_inter)
 		{
 			mlx->ray->distance = v_inter;
-			render_rays(mlx, mlx->player->plyr_x, mlx->player->plyr_y, mlx->ray->v_inter_x, mlx->ray->v_inter_y);
+      printf("v_inter: %f\n", v_inter);
+			// render_rays(mlx, mlx->player->plyr_x, mlx->player->plyr_y, mlx->ray->v_inter_x, mlx->ray->v_inter_y);
 		}
 		else
 		{
 			mlx->ray->distance = h_inter;
-			render_rays(mlx, mlx->player->plyr_x, mlx->player->plyr_y, mlx->ray->h_inter_x, mlx->ray->h_inter_y);
+      printf("h_inter: %f\n", h_inter);
+			// render_rays(mlx, mlx->player->plyr_x, mlx->player->plyr_y, mlx->ray->v_inter_x, mlx->ray->v_inter_y);
 		}
-		mlx->ray->ray_ngl += norm_angle(mlx->player->fov_rd / NUM_RAYS);
+    draw_ray(mlx, mlx->ray->ray_ngl, mlx->ray->distance, 0xEEED312);
+		mlx->ray->ray_ngl += (mlx->player->fov_rd / NUM_RAYS);
 		ray++;
 	}
 }

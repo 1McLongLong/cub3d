@@ -38,29 +38,29 @@ void	move_player(t_mlx *mlx, double move_x, double move_y)
 
 void	hook(t_mlx *mlx, double move_x, double move_y)
 {
-	if (mlx->player->rot == 1)
+	if (mlx->player->rot == 1) //rotate right
 		rotate_player(mlx, 1);
-	if (mlx->player->rot == -1)
+	if (mlx->player->rot == -1) //rotate left
 		rotate_player(mlx, 0);
-	if (mlx->player->l_r == 1)
+	if (mlx->player->l_r == 1) //move right
 	{
 		move_x = -sin(mlx->player->angle) * PLAYER_SPEED;
 		move_y = cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-	if (mlx->player->l_r == -1)
+	if (mlx->player->l_r == -1) //move left
 	{
 		move_x = sin(mlx->player->angle) * PLAYER_SPEED;
 		move_y = -cos(mlx->player->angle) * PLAYER_SPEED;
 	}
-	if (mlx->player->u_d == 1)
+	if (mlx->player->u_d == 1) //move up
 	{
 		move_x = cos(mlx->player->angle) * PLAYER_SPEED;
 		move_y = sin(mlx->player->angle) * PLAYER_SPEED;
 	}
-	if (mlx->player->u_d == -1)
+	if (mlx->player->u_d == -1) //move down
 	{
 		move_x = -cos(mlx->player->angle) * PLAYER_SPEED;
 		move_y = -sin(mlx->player->angle) * PLAYER_SPEED;
 	}
-	move_player(mlx, move_x, move_y);
+	move_player(mlx, move_x, move_y); // move the player
 }
