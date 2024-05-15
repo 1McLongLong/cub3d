@@ -64,8 +64,8 @@ typedef struct s_mlx //the mlx structure
 
 void	hook(t_mlx *mlx, double move_x, double move_y);
 void cast_rays(t_mlx *mlx);
-
 void key_handler(mlx_key_data_t key, void *ml);
+void ft_free(t_mlx *mlx);
 
 
 #endif

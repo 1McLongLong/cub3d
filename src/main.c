@@ -113,6 +113,7 @@ void start_game(t_data *data)
 	mlx_loop_hook(mlx.mlx_p, game_loop, &mlx);
 	mlx_key_hook(mlx.mlx_p, &key_handler, &mlx);
 	mlx_loop(mlx.mlx_p);
+	ft_free(&mlx);
 }
 
 
