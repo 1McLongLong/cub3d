@@ -20,7 +20,7 @@ char	*rest_of_line(char *reiner)
 	i = 0;
 	while (reiner[i] && reiner[i] != '\n')
 		i++;
-	new_reiner = ft_substr(reiner, i + 1, ft_strlen(reiner) - i);
+	new_reiner = et_substr(reiner, i + 1, ft_strlen(reiner) - i);
 	free(reiner);
 	return (new_reiner);
 }
@@ -34,13 +34,13 @@ char	*extract_line(char *reiner, char *line)
 		return (NULL);
 	if (ft_strchr(reiner, '\n') == NULL)
 	{
-		line = ft_substr(reiner, 0, ft_strlen(reiner));
+		line = et_substr(reiner, 0, ft_strlen(reiner));
 	}
 	else
 	{
 		while (reiner[i] && reiner[i] != '\n')
 			i++;
-		line = ft_substr(reiner, 0, i + 1);
+		line = et_substr(reiner, 0, i + 1);
 	}
 	return (line);
 }

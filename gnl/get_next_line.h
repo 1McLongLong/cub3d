@@ -25,10 +25,9 @@ char	*get_next_line(int fd);
 char	*extract_line(char *reiner, char *line);
 char	*read_line(int fd, char *reiner, char *buffer);
 char	*ft_strdup(const char *s1);
-
-size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlen(const char *s);
+char	*et_substr(char const *s, unsigned int start, size_t len);
 
 #endif
