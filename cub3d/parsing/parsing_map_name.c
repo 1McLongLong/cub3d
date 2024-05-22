@@ -6,7 +6,7 @@
 /*   By: sbouabid <sbouabid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 15:41:11 by sbouabid          #+#    #+#             */
-/*   Updated: 2024/05/16 16:06:02 by sbouabid         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:06:24 by sbouabid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,3 @@ void	check_map_name(char *name)
 	}
 	ft_puterror("one file must be provided with <.cub> extension");
 }
-
-

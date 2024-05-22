@@ -1,13 +1,14 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math #-fsanitize=address -g
 
 MLX = ./MLX42/build/libmlx42.a
 FLAG_MLX = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
 INCLUDE = -I/Users/${USER}/goinfre/.brew/Cellar/glfw/3.4/include/GLFW
 LIB = -L/Users/$(USER)/goinfre/.brew/opt/glfw/lib/
 
-SRCF = ./exec/main.c ./exec/key_handle.c ./exec/move_player.c ./exec/cast_rays.c ./exec/free.c ./exec/render_wall.c ./parsing/utils.c ./parsing/list.c ./parsing/parsing_map.c ./parsing/start_parsing.c \
-			 ./parsing/parsing_map_name.c ./parsing/parsing_map_color.c ./parsing/parsing_map_values.c
+SRCF = ./exec/main.c ./exec/key_handle.c ./exec/move_player.c ./exec/cast_rays.c ./exec/game.c ./exec/utils.c ./exec/free.c ./exec/render_wall.c \
+			 ./parsing/utils.c ./parsing/list.c ./parsing/parsing_map.c ./parsing/start_parsing.c \
+			 ./parsing/parsing_map_name.c ./parsing/parsing_map_color.c ./parsing/parsing_map_values.c ./parsing/parsing_map_utils.c
 LIBFT =	./libft/ft_strtrim.c ./libft/ft_strlen.c ./libft/ft_substr.c ./libft/ft_split.c\
 		 ./libft/ft_strcmp.c ./libft/ft_memset.c ./libft/ft_atoi.c ./libft/ft_strdup.c
 GNL = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c

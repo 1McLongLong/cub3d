@@ -1,12 +1,12 @@
 NO texture/red.png
 SO texture/sky.png
 EA texture/moon.png
-WE texture/clock.png
+WE texture/comet.png
 
 C 255,200,160
 F 122,122,122
 
-1111111111111111111
+      1
      101
     10001
    1000001
@@ -18,4 +18,4 @@ F 122,122,122
    100001
     10001
      101
-1111111111111111111
+      1
