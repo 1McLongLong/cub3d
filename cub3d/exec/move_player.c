@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/25 16:30:12 by touahman          #+#    #+#             */
+/*   Updated: 2024/05/25 16:30:13 by touahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/header.h"
 
 void	player_view(t_mlx *mlx, int i)
@@ -28,7 +40,7 @@ void	change_playerxy(t_mlx *mlx, double move_x, double move_y)
 	if ((map_y > 0 && map_y < (mlx->cub3d->map_rows))
 		&& (map_x > 0 && map_x < (int)ft_strlen(mlx->cub3d->map[map_y]))
 		&& mlx->cub3d->map[map_y][map_x] != '1' \
-		&& mlx->cub3d->map[mlx->player->plyr_y / TILE_SIZE ][map_x] != '1'
+		&& mlx->cub3d->map[mlx->player->plyr_y / TILE_SIZE][map_x] != '1'
 		&& mlx->cub3d->map[map_y][mlx->player->plyr_x / TILE_SIZE] != '1')
 	{
 		mlx->player->plyr_y = new_y;
@@ -42,22 +54,22 @@ void	move_player(t_mlx *mlx, double h_velocity, double v_velocity)
 		player_view(mlx, 1);
 	if (mlx->player->rot == -1)
 		player_view(mlx, 0);
-	if (mlx->player->l_r == 1) //move right
+	if (mlx->player->l_r == 1)
 	{
 		h_velocity = PLAYER_SPEED * -sin(mlx->player->angle);
 		v_velocity = PLAYER_SPEED * cos(mlx->player->angle);
 	}
-	if (mlx->player->l_r == -1) //move left
+	if (mlx->player->l_r == -1)
 	{
 		h_velocity = PLAYER_SPEED * sin(mlx->player->angle);
 		v_velocity = PLAYER_SPEED * -cos(mlx->player->angle);
 	}
-	if (mlx->player->u_d == 1) //move up
+	if (mlx->player->u_d == 1)
 	{
 		h_velocity = PLAYER_SPEED * cos(mlx->player->angle);
 		v_velocity = PLAYER_SPEED * sin(mlx->player->angle);
 	}
-	if (mlx->player->u_d == -1) //move down
+	if (mlx->player->u_d == -1)
 	{
 		h_velocity = PLAYER_SPEED * -cos(mlx->player->angle);
 		v_velocity = PLAYER_SPEED * -sin(mlx->player->angle);

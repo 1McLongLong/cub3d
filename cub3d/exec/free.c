@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/23 18:00:26 by touahman          #+#    #+#             */
+/*   Updated: 2024/05/23 18:00:31 by touahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/header.h"
 
-
-void delete_textures(t_mlx *mlx)
+void	delete_textures(t_mlx *mlx)
 {
 	mlx_delete_texture(mlx->text->no);
 	mlx_delete_texture(mlx->text->so);

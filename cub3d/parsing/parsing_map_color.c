@@ -27,7 +27,7 @@ int	convert(char **color_values, int *color, char **lines)
 		free_arr(lines);
 		ft_puterror("check_c_var::invalid color");
 	}
-	*color = (r << 16) + (g << 8) + b;
+	*color = (r << 24) | (g << 16) | (b << 8) | (255 << 0);
 	return (0);
 }
 

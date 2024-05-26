@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -O3 -ffast-math
 
 MLX = ./MLX42/build/libmlx42.a
 FLAG_MLX = -framework Cocoa -framework OpenGL -framework IOKit -lglfw
@@ -10,7 +10,7 @@ SRCF = ./exec/main.c ./exec/key_handle.c ./exec/move_player.c ./exec/cast_rays.c
 			 ./parsing/utils.c ./parsing/list.c ./parsing/parsing_map.c ./parsing/start_parsing.c \
 			 ./parsing/parsing_map_name.c ./parsing/parsing_map_color.c ./parsing/parsing_map_values.c ./parsing/parsing_map_utils.c
 LIBFT =	./libft/ft_strtrim.c ./libft/ft_strlen.c ./libft/ft_substr.c ./libft/ft_split.c\
-		 ./libft/ft_strcmp.c ./libft/ft_memset.c ./libft/ft_atoi.c ./libft/ft_strdup.c
+		 ./libft/ft_strcmp.c ./libft/ft_memset.c ./libft/ft_atoi.c ./libft/ft_strdup.c ./libft/ft_calloc.c
 GNL = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 GNL_SRCF = $(addprefix gnl/, get_next_line.c get_next_line_utils.c)
 LIBFT_OBJF = $(LIBFT:.c=.o)
@@ -25,7 +25,7 @@ $(NAME): $(OBJF) $(LIBFT_OBJF) $(GNL_OBJF)
 	@$(CC) $(CFLAGS) $^ $(MLX) $(FLAG_MLX) -o $@
 	@echo "🚀 Mission complete!"
 
-%.o : %.c ./include/header.h  ./gnl/get_next_line.h
+%.o : %.c ./include/header.h ./gnl/get_next_line.h ./libft/libft.h
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:

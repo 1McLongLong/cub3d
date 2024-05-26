@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_handle.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/25 12:23:38 by touahman          #+#    #+#             */
+/*   Updated: 2024/05/25 12:23:39 by touahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/header.h"
 
-void ft_release(mlx_key_data_t keydata, t_mlx *mlx)
+void	ft_release(mlx_key_data_t keydata, t_mlx *mlx)
 {
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
 		mlx->player->l_r = 0;
@@ -16,7 +28,7 @@ void ft_release(mlx_key_data_t keydata, t_mlx *mlx)
 		mlx->player->rot = 0;
 }
 
-void key_handler(mlx_key_data_t keydata, void *ml)
+void	key_handler(mlx_key_data_t keydata, void *ml)
 {
 	t_mlx	*mlx;
 

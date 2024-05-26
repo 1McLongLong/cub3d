@@ -6,7 +6,7 @@
 /*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:44:39 by touahman          #+#    #+#             */
-/*   Updated: 2024/05/22 17:44:59 by touahman         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:39:52 by touahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@
 
 # define S_W 1920
 # define S_H 1080
-# define TILE_SIZE 60
+# define TILE_SIZE 64
 # define FOV 60 
-# define ROTATION_SPEED 0.030 // rotation speed
-# define PLAYER_SPEED 6 // player speed
+# define ROTATION_SPEED 0.030
+# define PLAYER_SPEED 6
 # define PI 3.1415926535
 # define NUM_RAYS S_W
-
 
 typedef struct s_temp
 {
@@ -65,10 +64,10 @@ typedef struct s_cub3d
 	char	*ea;
 	int		f;
 	int		c;
-	int p_x;
-	int p_y;
-	int map_cols;
-	int map_rows;
+	int		p_x;
+	int		p_y;
+	int		map_cols;
+	int		map_rows;
 }	t_cub3d;
 
 typedef struct s_tex
@@ -89,39 +88,37 @@ typedef struct s_img
 
 typedef struct s_player
 {
-	int		plyr_x; // player x position in pixels
-	int		plyr_y; // player y position in pixels
-	double	angle; // player angle
-	float	fov_rd; // field of view in radians
-	int		rot; // rotation flag
-	int		l_r; // left right flag
-	int		u_d; // up down flag
+	int			plyr_x;
+	int			plyr_y;
+	double		angle;
+	float		fov_rd;
+	int			rot;
+	int			l_r;
+	int			u_d;
 }	t_player;
 
 typedef struct s_ray
 {
-	float	ray_ngl; // ray angle
-	float	distance; // distance to the wall
+	float	ray_ngl;
+	float	distance;
 	float	v_inter_x;
 	float	v_inter_y;
 	float	h_inter_x;
 	float	h_inter_y;
 	int		ray;
-	int		flag;  // flag for the wall (hit vertical/horizontal)
+	int		flag;
 }	t_ray;
 
-typedef struct s_mlx //the mlx structure
+typedef struct s_mlx
 {
 	mlx_t		*mlx_p;
 	mlx_image_t	*mlx_img;
-	t_ray		*ray; 
+	t_ray		*ray;
 	t_player	*player;
 	t_cub3d		*cub3d;
 	t_img		*img;
 	t_tex		*text;
 }	t_mlx;
-
-
 
 float	norm_angle(float angle);
 void	move_player(t_mlx *mlx, double move_x, double move_y);
@@ -132,9 +129,7 @@ void	render_wall3d(t_mlx	*mlx, int ray);
 int		count_rows(char **map);
 void	find_player(t_mlx *mlx);
 void	start_gaming(t_cub3d *cub3d);
-
-
-/////////////////////////////////////////////////////////////////////////////			  PARSING     /////////////////////////////////////////////////////////////////////////////////
+int		reverse_bytes(int argb);
 
 void	free_arr(char **values);
 int		size_arr(char **arr);

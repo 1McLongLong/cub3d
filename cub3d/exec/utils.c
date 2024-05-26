@@ -21,6 +21,18 @@ float	norm_angle(float angle)
 	return (angle);
 }
 
+int	reverse_bytes(int argb)
+{
+	unsigned int	rgba;
+
+	rgba = 0;
+	rgba |= (argb & 0xFF) << 24;
+	rgba |= (argb & 0xFF00) << 8;
+	rgba |= (argb & 0xFF0000) >> 8;
+	rgba |= (argb & 0xFF000000) >> 24;
+	return (rgba);
+}
+
 int	count_rows(char **map)
 {
 	int	i;

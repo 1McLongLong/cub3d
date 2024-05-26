@@ -47,8 +47,8 @@ int	install_textures(t_mlx *mlx)
 int	init_player(t_mlx mlx)
 {
 	find_player(&mlx);
-	mlx.player->plyr_x = mlx.cub3d->p_x * TILE_SIZE;
-	mlx.player->plyr_y = mlx.cub3d->p_y * TILE_SIZE;
+	mlx.player->plyr_x = mlx.cub3d->p_x * TILE_SIZE + TILE_SIZE / 2;
+	mlx.player->plyr_y = mlx.cub3d->p_y * TILE_SIZE + TILE_SIZE / 2;
 	get_angle(&mlx);
 	mlx.player->fov_rd = (PI * FOV) / 180;
 	if (install_textures(&mlx))
@@ -73,9 +73,9 @@ void	start_gaming(t_cub3d *cub3d)
 	t_mlx	mlx;
 
 	mlx.cub3d = cub3d;
-	mlx.player = calloc(1, sizeof(t_player));
-	mlx.ray = calloc(1, sizeof(t_ray));
-	mlx.text = calloc(1, sizeof(t_tex));
+	mlx.player = ft_calloc(1, sizeof(t_player));
+	mlx.ray = ft_calloc(1, sizeof(t_ray));
+	mlx.text = ft_calloc(1, sizeof(t_tex));
 	if (!mlx.player || !mlx.ray || !mlx.text)
 		exit(EXIT_FAILURE);
 	mlx.mlx_p = mlx_init(S_W, S_H, "Cub3D", 0);

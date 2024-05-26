@@ -1,29 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_wall.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 16:39:18 by touahman          #+#    #+#             */
+/*   Updated: 2024/05/26 16:39:19 by touahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/header.h"
 
-int	reverse_bytes(int c)
+double	offset_x(t_mlx *mlx, mlx_texture_t *texture)
 {
-	unsigned int	b;
-
-	b = 0;
-	b |= (c & 0xFF) << 24;
-	b |= (c & 0xFF00) << 8;
-	b |= (c & 0xFF0000) >> 8;
-	b |= (c & 0xFF000000) >> 24;
-	return (b);
-}
-
-double	get_x_o(mlx_texture_t	*texture, t_mlx *mlx)
-{
-	double	x_o;
+	double	texture_ox;
+	double	wall_hit;
 
 	if (mlx->ray->flag == 1)
-		x_o = (int)fmodf((mlx->ray->h_inter_x * (texture->width / TILE_SIZE)), texture->width);
+	{
+		wall_hit = mlx->ray->h_inter_x * (texture->width / TILE_SIZE);
+		texture_ox = (int)wall_hit % texture->width;
+	}
 	else
-		x_o = (int)fmodf((mlx->ray->v_inter_y * (texture->width / TILE_SIZE)), texture->width);
-	return (x_o);
+	{
+		wall_hit = mlx->ray->v_inter_y * (texture->width / TILE_SIZE);
+		texture_ox = (int)wall_hit % texture->width;
+	}
+	return (texture_ox);
 }
 
-mlx_texture_t 	*get_texture(t_mlx *mlx)
+mlx_texture_t	*get_texture(t_mlx *mlx)
 {
 	mlx->ray->ray_ngl = norm_angle(mlx->ray->ray_ngl);
 	if (mlx->ray->flag)
@@ -36,45 +43,51 @@ mlx_texture_t 	*get_texture(t_mlx *mlx)
 	else
 	{
 		if (mlx->ray->ray_ngl > M_PI / 2 && mlx->ray->ray_ngl < 1.5 * M_PI)
-			return (mlx->text->ea);
-		else
 			return (mlx->text->we);
+		else
+			return (mlx->text->ea);
 	}
 }
 
-void	draw_floor_ceiling(t_mlx *mlx, int ray, int t_pixel, int b_pixel)
+void	draw_floor_ceiling(t_mlx *mlx, int t_pixel, int b_pixel)
 {
 	int	i;
 
-	i = b_pixel;
-	while (i < S_H)
-		mlx_put_pixel(mlx->mlx_img, ray, i++, 7740); // floor
 	i = 0;
 	while (i < t_pixel)
-		mlx_put_pixel(mlx->mlx_img, ray, i++, 0XFDC6400f); // ceiling
+	{
+		mlx_put_pixel(mlx->mlx_img, mlx->ray->ray, i, mlx->cub3d->c);
+		i++;
+	}
+	i = b_pixel;
+	while (i < S_H)
+	{
+		mlx_put_pixel(mlx->mlx_img, mlx->ray->ray, i, mlx->cub3d->f);
+		i++;
+	}
 }
 
-
-void draw_wall(t_mlx *mlx, int t_pixel, int b_pixel, double wall_height)
+void	draw_wall(t_mlx *mlx, int t_pixel, int b_pixel, double wall_height)
 {
-	mlx_texture_t *texture;
-	uint32_t *arr;
-	double texture_ox;
-	double texture_oy;
-	double factor;
+	mlx_texture_t	*texture;
+	uint32_t		*arr;
+	double			texture_ox;
+	double			texture_oy;
+	double			factor;
 
 	texture = get_texture(mlx);
 	arr = (uint32_t *)texture->pixels;
 	factor = ((double)texture->height / wall_height);
-	texture_ox = get_x_o(texture, mlx);
+	texture_ox = offset_x(mlx, texture);
 	if (texture_ox < 0)
 		texture_ox = 0;
-	texture_oy = (t_pixel - (S_H / 2) + (wall_height / 2)) * factor;
+	texture_oy = (t_pixel + (wall_height / 2) - (S_H / 2)) * factor;
 	if (texture_oy < 0)
- 		texture_oy = 0;
+		texture_oy = 0;
 	while (t_pixel < b_pixel)
 	{
-		mlx_put_pixel(mlx->mlx_img, mlx->ray->ray, t_pixel, reverse_bytes (arr[(texture->width * (int)texture_oy) + (int)texture_ox]));
+		mlx_put_pixel(mlx->mlx_img, mlx->ray->ray, t_pixel, reverse_bytes
+			(arr[(texture->width * (int)texture_oy) + (int)texture_ox]));
 		texture_oy += factor;
 		t_pixel++;
 	}
@@ -82,14 +95,15 @@ void draw_wall(t_mlx *mlx, int t_pixel, int b_pixel, double wall_height)
 
 void	render_wall3d(t_mlx	*mlx, int ray)
 {
-	float	plane_dis;
+	float	dis_from_pp;
 	float	wall_height;
 	float	top_pixel;
 	float	bot_pixel;
 
-	mlx->ray->distance *= cos(norm_angle(mlx->ray->ray_ngl - mlx->player->angle));
-	plane_dis = (S_W / 2) / tan(mlx->player->fov_rd / 2);
-	wall_height = (TILE_SIZE / mlx->ray->distance) * plane_dis; // wallstriphe
+	mlx->ray->distance *= cos(norm_angle
+			(mlx->ray->ray_ngl - mlx->player->angle));
+	dis_from_pp = (S_W / 2) / tan(mlx->player->fov_rd / 2);
+	wall_height = (TILE_SIZE / mlx->ray->distance) * dis_from_pp;
 	top_pixel = (S_H / 2) - (wall_height / 2);
 	if (top_pixel < 0)
 		top_pixel = 0;
@@ -97,6 +111,6 @@ void	render_wall3d(t_mlx	*mlx, int ray)
 	if (bot_pixel > S_H)
 		bot_pixel = S_H;
 	mlx->ray->ray = ray;
+	draw_floor_ceiling(mlx, top_pixel, bot_pixel);
 	draw_wall(mlx, top_pixel, bot_pixel, wall_height);
-	draw_floor_ceiling(mlx, ray, top_pixel, bot_pixel);
 }

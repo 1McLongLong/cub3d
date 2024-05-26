@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cast_rays.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/25 12:21:26 by touahman          #+#    #+#             */
+/*   Updated: 2024/05/25 18:30:47 by touahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/header.h"
 
 int	is_there_wall(float x, float y, t_mlx *mlx)
@@ -25,7 +37,7 @@ int	ray_direct(float angle, float *inter, float *step, int horiz)
 		if (angle > 0 && angle < M_PI)
 		{
 			*inter += TILE_SIZE;
-			return (-1);
+			return (0);
 		}
 		*step *= -1;
 	}
@@ -34,7 +46,7 @@ int	ray_direct(float angle, float *inter, float *step, int horiz)
 		if (angle < 0.5 * M_PI || angle > 1.5 * M_PI)
 		{
 			*inter += TILE_SIZE;
-			return (-1);
+			return (0);
 		}
 		*step *= -1;
 	}
@@ -124,92 +136,3 @@ void	cast_rays(t_mlx *mlx)
 		ray++;
 	}
 }
-
-//////////////////////////////////////////////
-
-// float find_h_inter(t_mlx *mlx, float angle)
-// {
-// 	angle = norm_angle(angle);
-//
-// 	int isRayFacingDown = angle > 0 && angle < M_PI;
-// 	int isRayFacingUp = !isRayFacingDown;
-// 	int isRayFacingRight = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
-// 	int isRayFacingLeft = !isRayFacingRight;
-//
-// 	float xintercept, yintercept;
-// 	float xstep, ystep;
-//
-// 	ystep = TILE_SIZE;
-// 	xstep = TILE_SIZE / tan(angle);
-// 	yintercept = floor(mlx->player->plyr_y / TILE_SIZE) * TILE_SIZE;
-// 	yintercept += isRayFacingDown ? TILE_SIZE : 0;
-// 	ystep *= isRayFacingUp ? -1 : 1;
-// 	xintercept = mlx->player->plyr_x + (yintercept - mlx->player->plyr_y) / tan(angle);
-// 	xstep *= (isRayFacingLeft && xstep > 0) ? -1 : 1;
-// 	xstep *= (isRayFacingRight && xstep < 0) ? -1 : 1;
-// 	while (wall_hit(xintercept, yintercept + (isRayFacingUp ? -1 : 0), mlx))
-// 	{
-// 		xintercept += xstep;
-// 		yintercept += ystep;
-// 	}
-// 	mlx->ray->h_inter_x = xintercept;
-// 	mlx->ray->h_inter_y = yintercept;
-// 	return (sqrt(pow(xintercept - mlx->player->plyr_x, 2) + pow(yintercept - mlx->player->plyr_y, 2)));
-// }
-//
-// float find_v_inter(t_mlx *mlx, float angle)
-// {
-// 	angle = norm_angle(angle);
-// 	int isRayFacingDown = angle > 0 && angle < M_PI;
-// 	int isRayFacingUp = !isRayFacingDown;
-// 	int isRayFacingRight = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
-// 	int isRayFacingLeft = !isRayFacingRight;
-//
-// 	float xintercept, yintercept;
-// 	float xstep, ystep;
-//
-// 	xstep = TILE_SIZE;
-// 	ystep = TILE_SIZE * tan(angle);
-// 	xintercept = floor(mlx->player->plyr_x / TILE_SIZE) * TILE_SIZE;
-// 	xintercept += isRayFacingRight ? TILE_SIZE : 0;
-// 	xstep *= isRayFacingLeft ? -1 : 1;
-// 	yintercept = mlx->player->plyr_y + (xintercept - mlx->player->plyr_x) * tan(angle);
-// 	ystep *= (isRayFacingUp && ystep > 0) ? -1 : 1;
-// 	ystep *= (isRayFacingDown && ystep < 0) ? -1 : 1;
-//
-// 	while (wall_hit(xintercept + (isRayFacingLeft ? -1 : 0), yintercept, mlx))
-// 	{
-// 		xintercept += xstep;
-// 		yintercept += ystep;
-// 	}
-// 	mlx->ray->v_inter_x = xintercept;
-// 	mlx->ray->v_inter_y = yintercept;
-// 	return (sqrt(pow(xintercept - mlx->player->plyr_x, 2) + pow(yintercept - mlx->player->plyr_y, 2)));
-// }
-// void cast_rays(t_mlx *mlx)
-// {
-// 	float h_inter;
-// 	float v_inter;
-// 	int ray = 0;
-//
-// 	mlx->ray->ray_ngl = mlx->player->angle - (mlx->player->fov_rd / 2);
-// 	while (ray < NUM_RAYS)
-// 	{
-// 		mlx->ray->flag = 0;
-// 		h_inter = find_h_inter(mlx, norm_angle(mlx->ray->ray_ngl));
-// 		v_inter = find_v_inter(mlx, norm_angle(mlx->ray->ray_ngl));
-// 		if (v_inter <= h_inter)
-// 		{
-// 			mlx->ray->distance = v_inter;
-// 		}
-// 		else
-// 		{	
-// 			mlx->ray->flag = 1;
-// 			mlx->ray->distance = h_inter;
-// 		}
-// 		// draw_ray(mlx, mlx->ray->ray_ngl, mlx->ray->distance);
-// 		render_wall3d(mlx, ray);
-// 		mlx->ray->ray_ngl += (mlx->player->fov_rd / NUM_RAYS);
-// 		ray++;
-// 	}
-// }
