@@ -14,7 +14,6 @@
 # define HEADER_H
 
 # include <stdio.h>
-# include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
@@ -141,7 +140,6 @@ int		pars_color(char	**lines, t_temp *temp);
 void	draw_map(t_cub3d *cub, t_map **map);
 void	full_map(char *line, t_map **map, t_temp *temp, t_cub3d *cub);
 void	check_if_valid_map(t_cub3d *cub);
-void	free_cub(t_cub3d *cub);
 void	free_cub(t_cub3d *cub);
 int		check_if_empty(char	*line);
 int		check_if_valid(char	*line, t_temp *temp);

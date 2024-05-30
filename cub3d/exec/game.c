@@ -63,6 +63,8 @@ void	start_graphics(void *ml)
 	mlx = ml;
 	mlx_delete_image(mlx->mlx_p, mlx->mlx_img);
 	mlx->mlx_img = mlx_new_image(mlx->mlx_p, S_W, S_H);
+	if (!mlx->mlx_img)
+		ft_free(mlx);
 	move_player(mlx, 0, 0);
 	cast_rays(mlx);
 	mlx_image_to_window(mlx->mlx_p, mlx->mlx_img, 0, 0);
@@ -79,6 +81,8 @@ void	start_gaming(t_cub3d *cub3d)
 	if (!mlx.player || !mlx.ray || !mlx.text)
 		exit(EXIT_FAILURE);
 	mlx.mlx_p = mlx_init(S_W, S_H, "Cub3D", 0);
+	if (!mlx.mlx_p)
+		ft_free(&mlx);
 	if (init_player(mlx))
 		ft_free(&mlx);
 	mlx.mlx_img = mlx_new_image(mlx.mlx_p, S_W, S_H);

@@ -6,16 +6,11 @@
 /*   By: touahman <touahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 17:15:52 by touahman          #+#    #+#             */
-/*   Updated: 2024/05/25 16:31:28 by touahman         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:02:28 by touahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
-
-void	f(void)
-{
-	system("leaks cub3D");
-}
 
 int	main(int ac, char **av)
 {
@@ -32,5 +27,4 @@ int	main(int ac, char **av)
 	}
 	start_parsing(av[1], &cub3d);
 	start_gaming(&cub3d);
-	free_cub(&cub3d);
 }
